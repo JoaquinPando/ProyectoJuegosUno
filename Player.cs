@@ -4,7 +4,7 @@ using System;
 public partial class Player : CharacterBody2D
 {
 	[Export] public float MoveSpeed = 200.0f;  // Velocidad de movimiento
-	[Export] public float JumpForce = -400.0f; // Fuerza del salto
+	[Export] public float JumpForce = -350.0f; // Fuerza del salto
 	[Export] public float GravityForce = 800.0f; // Gravedad
 
 	private AnimatedSprite2D _animatedSprite;
