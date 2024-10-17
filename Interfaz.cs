@@ -3,12 +3,17 @@ using System;
 
 public partial class Interfaz : Control
 {
+
+	
 	public override void _Ready()
 	{
+
 		// Conectar las señales de los botones
 		GetNode<Button>("play").Pressed += _on_play_pressed;
 		GetNode<Button>("option").Pressed += _on_option_pressed;
 		GetNode<Button>("quit").Pressed += _on_quit_pressed;
+		
+		
 	}
 
 	private void _on_play_pressed()
@@ -16,7 +21,7 @@ public partial class Interfaz : Control
 		// Cargar y agregar la escena del tutorial
 		var scenePath = "res://nivel_Tutorial.tscn"; // Asegúrate de que esta ruta sea correcta.
 		var packedScene = ResourceLoader.Load<PackedScene>(scenePath);
-
+			
 		if (packedScene != null)
 		{
 			var sceneInstance = packedScene.Instantiate(); // Instanciar la escena

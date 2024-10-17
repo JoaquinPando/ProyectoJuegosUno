@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cauusg1vmc42q"]
+[gd_scene load_steps=7 format=3 uid="uid://cauusg1vmc42q"]
 
 [ext_resource type="Texture2D" uid="uid://ohncwk2sysgj" path="res://Assets/kenney_pico-8-platformer/Transparent/Tilemap/tilemap_packed.png" id="1_c3uvb"]
+[ext_resource type="Script" path="res://nivel_Tutorial.gd" id="1_rpq00"]
 [ext_resource type="PackedScene" uid="uid://ctipinhg2l3jg" path="res://Player.tscn" id="2_gfutq"]
+[ext_resource type="AudioStream" uid="uid://vk3tlwbsec4h" path="res://Sound/MusicaTutorial.mp3" id="4_kilul"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pva5w"]
 texture = ExtResource("1_c3uvb")
@@ -82,6 +84,7 @@ physics_layer_0/collision_layer = 1
 sources/3 = SubResource("TileSetAtlasSource_pva5w")
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_rpq00")
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
@@ -96,3 +99,6 @@ position = Vector2(3, -18)
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 zoom = Vector2(3, 3)
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_kilul")

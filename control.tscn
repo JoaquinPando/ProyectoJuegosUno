@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://chpbq8mv78tcv"]
+[gd_scene load_steps=4 format=3 uid="uid://chpbq8mv78tcv"]
 
 [ext_resource type="Script" path="res://Interfaz.cs" id="1_mc76p"]
 [ext_resource type="Texture2D" uid="uid://bgtr4qb6704ff" path="res://Art/UTP.webp" id="2_32flm"]
+[ext_resource type="AudioStream" uid="uid://bomxq00hi2u4h" path="res://Sound/MusicaParaElInterfaz.mp3" id="3_eupwv"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -45,6 +46,11 @@ text = "OPTION"
 [node name="Quit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "QUIT"
+
+[node name="minter" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_eupwv")
+volume_db = 8.357
+autoplay = true
 
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Option" to="." method="_on_option_pressed"]
