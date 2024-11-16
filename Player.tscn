@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ctipinhg2l3jg"]
+[gd_scene load_steps=14 format=3 uid="uid://ctipinhg2l3jg"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_y3bfh"]
 [ext_resource type="Texture2D" uid="uid://d08f5esuvudhr" path="res://Art/PlayerDefault.png" id="2_hua6h"]
@@ -42,10 +42,37 @@ animations = [{
 "speed": 20.0
 }]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_3m1jd"]
+blend_mode = 1
+light_mode = 2
+
+[sub_resource type="Gradient" id="Gradient_855w7"]
+offsets = PackedFloat32Array(0, 0.595628)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_g8ptq"]
+gradient = SubResource("Gradient_855w7")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_kdfsg"]
+blend_mode = 1
+light_mode = 2
+
+[sub_resource type="Gradient" id="Gradient_t6brw"]
+offsets = PackedFloat32Array(0, 0.639344)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1mf7y"]
+gradient = SubResource("Gradient_t6brw")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4iswt"]
 size = Vector2(11, 26)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+position = Vector2(3, -4)
 script = ExtResource("1_y3bfh")
 metadata/_edit_group_ = true
 
@@ -54,6 +81,22 @@ texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_h7hgn")
 animation = &"jump"
 frame_progress = 0.991328
+
+[node name="Light" type="PointLight2D" parent="."]
+modulate = Color(0.406275, 0.379668, 0.192426, 1)
+material = SubResource("CanvasItemMaterial_3m1jd")
+position = Vector2(0.5, 0.5)
+color = Color(0.898347, 0.831735, 0.88776, 1)
+texture = SubResource("GradientTexture2D_g8ptq")
+texture_scale = 2.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Light"]
+modulate = Color(0.730135, 0.845546, 0.589635, 0.392157)
+self_modulate = Color(1, 1, 1, 0.0901961)
+material = SubResource("CanvasItemMaterial_kdfsg")
+position = Vector2(0.5, 0.5)
+scale = Vector2(2, 2)
+texture = SubResource("GradientTexture2D_1mf7y")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 2)
