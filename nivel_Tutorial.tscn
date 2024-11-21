@@ -125,7 +125,7 @@ zoom = Vector2(3, 3)
 [node name="Music" type="AudioStreamPlayer2D" parent="."]
 position = Vector2(9, -56)
 stream = ExtResource("4_kilul")
-autoplay = true
+pitch_scale = 1.36
 
 [node name="Background1" type="Sprite2D" parent="."]
 

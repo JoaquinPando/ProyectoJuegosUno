@@ -1,10 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://ctipinhg2l3jg"]
+[gd_scene load_steps=16 format=3 uid="uid://ctipinhg2l3jg"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_y3bfh"]
 [ext_resource type="Texture2D" uid="uid://d08f5esuvudhr" path="res://Art/PlayerDefault.png" id="2_hua6h"]
 [ext_resource type="Texture2D" uid="uid://dscxqust6wgtv" path="res://Art/PlayerJump.png" id="3_rcuxh"]
 [ext_resource type="Texture2D" uid="uid://cnuu368ukbynw" path="res://Art/PlayerWalking2.png" id="4_dwxro"]
 [ext_resource type="Texture2D" uid="uid://own862segeoq" path="res://Art/PlayerWalking1.png" id="5_3ybsn"]
+[ext_resource type="AudioStream" uid="uid://cgb01ecrnq87a" path="res://Sound/Footsteps_grass.wav" id="6_l6a6f"]
+[ext_resource type="AudioStream" uid="uid://buj4c3f8bq1l3" path="res://Sound/jump.wav" id="7_sxtor"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_h7hgn"]
 animations = [{
@@ -79,8 +81,7 @@ metadata/_edit_group_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_h7hgn")
-animation = &"jump"
-frame_progress = 0.991328
+animation = &"walk"
 
 [node name="Light" type="PointLight2D" parent="."]
 modulate = Color(0.406275, 0.379668, 0.192426, 1)
@@ -101,3 +102,11 @@ texture = SubResource("GradientTexture2D_1mf7y")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 2)
 shape = SubResource("RectangleShape2D_4iswt")
+
+[node name="Pasos" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_l6a6f")
+volume_db = 5.786
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_sxtor")
+volume_db = -15.92
