@@ -52,4 +52,6 @@ public partial class Player : CharacterBody2D
 		// Mover al jugador con colisiones
 		MoveAndSlide(); // Solo llama a este método sin asignar el resultado
 	}
+	
+	
 }

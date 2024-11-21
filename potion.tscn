@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cu30852d2c6h2"]
+[gd_scene load_steps=8 format=3 uid="uid://cu30852d2c6h2"]
 
 [ext_resource type="Texture2D" uid="uid://bf553s8h28phf" path="res://Art/diploma animation.png" id="1_4kqlh"]
 [ext_resource type="Script" path="res://Potion2D.gd" id="1_rqkg6"]
+[ext_resource type="AudioStream" uid="uid://uvry0snc0v6n" path="res://Sound/Power Up.wav" id="3_ndpc6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_istiq"]
 radius = 11.0
@@ -65,5 +66,9 @@ position = Vector2(0, 1)
 scale = Vector2(0.050293, 0.050293)
 texture = ExtResource("1_4kqlh")
 hframes = 4
+
+[node name="PICKUP SOUND" type="AudioStreamPlayer" parent="Potion2D"]
+stream = ExtResource("3_ndpc6")
+pitch_scale = 3.01
 
 [connection signal="body_entered" from="Potion2D" to="Potion2D" method="_on_body_entered"]
