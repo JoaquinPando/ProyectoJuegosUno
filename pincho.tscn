@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://bln8cnaxl3gnq"]
+
+[ext_resource type="Script" path="res://Pincho.gd" id="1_cy3sh"]
+[ext_resource type="Texture2D" uid="uid://brbefv7lbfg77" path="res://Art/Pincho.png" id="1_x7noj"]
+[ext_resource type="AudioStream" uid="uid://cpppd1ef0ptbm" path="res://Sound/daño.mp3" id="3_akvfb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kjope"]
+size = Vector2(1.00544, 1.98119)
+
+[node name="Pincho" type="Node2D"]
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("1_cy3sh")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+texture_filter = 1
+position = Vector2(25, -19.75)
+scale = Vector2(0.8125, 1.10937)
+texture = ExtResource("1_x7noj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(25, -24)
+rotation = -3.14044
+scale = Vector2(7.95669, 7.5706)
+shape = SubResource("RectangleShape2D_kjope")
+
+[node name="daño" type="AudioStreamPlayer2D" parent="Area2D"]
+stream = ExtResource("3_akvfb")
+pitch_scale = 3.88
+attenuation = 0.378929
+
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]

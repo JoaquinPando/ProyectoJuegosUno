@@ -1,14 +1,20 @@
-[gd_scene load_steps=16 format=3 uid="uid://ctipinhg2l3jg"]
+[gd_scene load_steps=25 format=3 uid="uid://ctipinhg2l3jg"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_y3bfh"]
 [ext_resource type="Texture2D" uid="uid://d08f5esuvudhr" path="res://Art/PlayerDefault.png" id="2_hua6h"]
+[ext_resource type="Shader" path="res://Flash.gdshader" id="2_sqpkh"]
 [ext_resource type="Texture2D" uid="uid://dscxqust6wgtv" path="res://Art/PlayerJump.png" id="3_rcuxh"]
 [ext_resource type="Texture2D" uid="uid://cnuu368ukbynw" path="res://Art/PlayerWalking2.png" id="4_dwxro"]
 [ext_resource type="Texture2D" uid="uid://own862segeoq" path="res://Art/PlayerWalking1.png" id="5_3ybsn"]
 [ext_resource type="AudioStream" uid="uid://cgb01ecrnq87a" path="res://Sound/Footsteps_grass.wav" id="6_l6a6f"]
 [ext_resource type="AudioStream" uid="uid://buj4c3f8bq1l3" path="res://Sound/jump.wav" id="7_sxtor"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_h7hgn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r2fhn"]
+shader = ExtResource("2_sqpkh")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = null
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4gjhi"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -27,21 +33,21 @@ animations = [{
 }],
 "loop": true,
 "name": &"jump",
-"speed": 10.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("3_rcuxh")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_3ybsn")
+"texture": ExtResource("4_dwxro")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_dwxro")
+"texture": ExtResource("5_3ybsn")
 }],
 "loop": true,
 "name": &"walk",
-"speed": 20.0
+"speed": 10.0
 }]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_3m1jd"]
@@ -71,17 +77,70 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4iswt"]
-size = Vector2(11, 26)
+size = Vector2(13, 26)
+
+[sub_resource type="Animation" id="Animation_45dlo"]
+resource_name = "FlashDaño"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [null, 0.2, 0.3, 0.5, 1.0, 0.5, 0.3, 0.2, null]
+}
+
+[sub_resource type="Animation" id="Animation_3fgjh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [null]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t3k1r"]
+_data = {
+"FlashDaño": SubResource("Animation_45dlo"),
+"RESET": SubResource("Animation_3fgjh")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qpu6"]
+bg_color = Color(0, 0.0377509, 0.0525407, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vg46t"]
+bg_color = Color(0.925423, 0.0569743, 0.0569743, 1)
+
+[sub_resource type="GDScript" id="GDScript_i5hcy"]
+script/source = "extends Area2D
+
+
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bnifc"]
+size = Vector2(13, 21)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
-position = Vector2(3, -4)
+position = Vector2(39, -28)
 script = ExtResource("1_y3bfh")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_h7hgn")
-animation = &"walk"
+material = SubResource("ShaderMaterial_r2fhn")
+sprite_frames = SubResource("SpriteFrames_4gjhi")
+frame_progress = 0.693072
 
 [node name="Light" type="PointLight2D" parent="."]
 modulate = Color(0.406275, 0.379668, 0.192426, 1)
@@ -110,3 +169,30 @@ volume_db = 5.786
 [node name="Jump" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_sxtor")
 volume_db = -15.92
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_t3k1r")
+}
+
+[node name="Vida" type="ProgressBar" parent="."]
+offset_left = -16.0
+offset_top = -23.0
+offset_right = 16.0
+offset_bottom = -16.0
+scale = Vector2(1.04, 0.96)
+theme_override_styles/background = SubResource("StyleBoxFlat_7qpu6")
+theme_override_styles/fill = SubResource("StyleBoxFlat_vg46t")
+max_value = 10.0
+value = 5.0
+show_percentage = false
+
+[node name="externo" type="Area2D" parent="."]
+script = SubResource("GDScript_i5hcy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="externo"]
+position = Vector2(-0.5, -0.5)
+shape = SubResource("RectangleShape2D_bnifc")
+debug_color = Color(0.852139, 0.313154, 0.518713, 0.42)
+
+[connection signal="area_entered" from="externo" to="externo" method="_on_area_entered"]

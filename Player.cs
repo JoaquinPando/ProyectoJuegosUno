@@ -1,23 +1,29 @@
 using Godot;
 using System;
-
+[GlobalClass]
 public partial class Player : CharacterBody2D
 {
 	[Export] public float MoveSpeed = 200.0f;  // Velocidad de movimiento
 	[Export] public float JumpForce = -350.0f; // Fuerza del salto
 	[Export] public float GravityForce = 800.0f; // Gravedad
-
+	
+	private ProgressBar vida;
 	private AnimatedSprite2D _animatedSprite;
+	private AnimationPlayer _flash;
 	private AudioStreamPlayer2D footsteps;
 	private AudioStreamPlayer2D jumpsound;
 	private bool isWalking = false; // Variable para rastrear si el jugador está caminando
 	private bool hasJumped = false; // Variable para rastrear si el sonido de salto ya se reprodujo
+	public int hp = 1;
 
 	public override void _Ready()
 	{
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		_flash = GetNode<AnimationPlayer>("AnimationPlayer");
 		footsteps = GetNode<AudioStreamPlayer2D>("Pasos");
 		jumpsound = GetNode<AudioStreamPlayer2D>("Jump");
+		vida = GetNode<ProgressBar>("Vida");
+		vida.Value = hp;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -40,6 +46,7 @@ public partial class Player : CharacterBody2D
 		if (!IsOnFloor())
 		{
 			_animatedSprite.Play("jump");  // Animación al saltar
+			
 			StopFootsteps(); // Detener el sonido de pasos
 			PlayJumpSound(); // Reproducir el sonido de salto
 		}
@@ -107,4 +114,50 @@ public partial class Player : CharacterBody2D
 			hasJumped = false; // Reiniciar el estado al aterrizar
 		}
 	}
+	
+	public void IncrementHealth(int amount)//funcion para incrementar la vida
+	{
+		hp += amount;
+		if (hp > 10) //Límite máximo de vida, ajustada según sea neceario
+			hp = 10;
+		vida.Value = hp;
+	}
+	public void DecrementHealth(int amount)//funcion para incrementar la vida
+	{
+		hp -= amount;
+		if (hp < 0) //Límite máximo de vida, ajustada según sea neceario
+			hp = 0;
+		vida.Value = hp;
+		if (hp <= 0)
+		
+			RestartScene();
+		
+	}
+	
+	
+	private async void RestartScene()
+	{
+	// Pausar la escena
+	GetTree().Paused = true;
+
+	// Hacer que el jugador se haga invisible
+	this.Visible = false;
+
+	// Esperar 1 segundo
+	await ToSignal(GetTree().CreateTimer(1.0f), "timeout");
+
+	// Después de esperar, reiniciar la escena
+	GetTree().Paused = false;
+	var tree = GetTree();
+	tree.ReloadCurrentScene(); // Reinicia la escena actual
+
+	
+	}
+
+
+	public void ApplyKnockback(Vector2 knockbackForce)
+	{
+	Velocity += knockbackForce; // Agrega la fuerza de empuje a la velocidad
+	}
+
 }
